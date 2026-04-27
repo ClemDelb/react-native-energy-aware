@@ -27,7 +27,7 @@ npm install react-native-energy-aware
 yarn add react-native-energy-aware
 ```
 
-> Requires **React Native 0.75+** with the New Architecture enabled.
+> Requires **React Native 0.75+**. Built on the New Architecture (TurboModule) with old architecture support via the interop layer.
 
 ---
 
