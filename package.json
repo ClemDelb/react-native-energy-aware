@@ -1,6 +1,6 @@
 {
   "name": "react-native-energy-aware",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "description": "React Native hooks and components that adapt to battery, low power, and thermal state",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
