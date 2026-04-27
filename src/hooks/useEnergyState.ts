@@ -50,7 +50,6 @@ export function useEnergyState(): EnergyState {
     const emitter = new NativeEventEmitter(NativeModules.EnergyAware);
     const subscription = emitter.addListener(
       EVENT_STATE_CHANGED,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (raw: any) => {
         setState(toEnergyState(raw as EnergyStatePayload));
       }
