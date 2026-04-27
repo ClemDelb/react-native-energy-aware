@@ -26,7 +26,7 @@ le mode économie d'énergie — sans que les devs aient à gérer manuellement 
 
 ## 🚀 Roadmap & Features
 
-### v0.1 — MVP (Core API)
+### ✅ v0.1 — MVP (Core API) — released 2026-04-27
 
 #### 1. Hook central `useEnergyState`
 
@@ -56,7 +56,7 @@ L'idée : la lib applique les best practices, le dev consomme juste un boolean.
 
 ---
 
-### v0.2 — Adaptation automatique
+### 🚧 v0.2 — Adaptation automatique (in progress)
 
 #### 3. Composants drop-in
 
