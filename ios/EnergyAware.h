@@ -1,5 +1,6 @@
 #import <EnergyAwareSpec/EnergyAwareSpec.h>
+#import <React/RCTEventEmitter.h>
 
-@interface EnergyAware : NSObject <NativeEnergyAwareSpec>
+@interface EnergyAware : RCTEventEmitter <NativeEnergyAwareSpec>
 
 @end

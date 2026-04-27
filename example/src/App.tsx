@@ -1,12 +1,73 @@
-import { Text, View, StyleSheet } from 'react-native';
-import { multiply } from 'react-native-energy-aware';
-
-const result = multiply(3, 7);
+import { StyleSheet, Text, View } from 'react-native';
+import {
+  useCanRunExpensiveTask,
+  useEnergyState,
+  useRecommendedFPS,
+  useShouldReduceAnimations,
+  useShouldReduceQuality,
+} from 'react-native-energy-aware';
 
 export default function App() {
+  const energy = useEnergyState();
+  const reduceAnimations = useShouldReduceAnimations();
+  const reduceQuality = useShouldReduceQuality();
+  const fps = useRecommendedFPS();
+  const canRunHeavyTask = useCanRunExpensiveTask();
+
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text style={styles.title}>react-native-energy-aware</Text>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Battery level</Text>
+        <Text style={styles.value}>
+          {energy.batteryLevel >= 0
+            ? `${Math.round(energy.batteryLevel * 100)}%`
+            : 'unknown'}
+        </Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Battery state</Text>
+        <Text style={styles.value}>{energy.batteryState}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Low power mode</Text>
+        <Text style={styles.value}>{energy.isLowPowerMode ? 'on' : 'off'}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Thermal state</Text>
+        <Text style={styles.value}>{energy.thermalState}</Text>
+      </View>
+
+      <View style={[styles.section, styles.modeRow]}>
+        <Text style={styles.label}>Energy mode</Text>
+        <Text style={[styles.value, styles.mode]}>{energy.energyMode}</Text>
+      </View>
+
+      <View style={styles.divider} />
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Reduce animations</Text>
+        <Text style={styles.value}>{reduceAnimations ? 'yes' : 'no'}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Reduce quality</Text>
+        <Text style={styles.value}>{reduceQuality ? 'yes' : 'no'}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Recommended FPS</Text>
+        <Text style={styles.value}>{fps}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Can run heavy task</Text>
+        <Text style={styles.value}>{canRunHeavyTask ? 'yes' : 'no'}</Text>
+      </View>
     </View>
   );
 }
@@ -16,5 +77,36 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 24,
+    gap: 12,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  section: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  label: {
+    color: '#666',
+  },
+  value: {
+    fontWeight: '500',
+  },
+  mode: {
+    textTransform: 'uppercase',
+    fontWeight: '700',
+  },
+  modeRow: {
+    marginTop: 4,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#e0e0e0',
+    width: '100%',
+    marginVertical: 8,
   },
 });
