@@ -43,7 +43,19 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "battery",
+    "battery-level",
+    "battery-state",
+    "thermal",
+    "thermal-state",
+    "low-power-mode",
+    "power-save",
+    "energy",
+    "performance",
+    "hooks",
+    "turbomodule",
+    "new-architecture"
   ],
   "repository": {
     "type": "git",
