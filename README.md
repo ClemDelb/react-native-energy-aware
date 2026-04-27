@@ -155,6 +155,56 @@ function SyncButton() {
 
 Returns `true` only in `normal` mode. Use this to gate ML inference, large uploads, image processing, etc.
 
+#### `useAdaptiveInterval(config)`
+
+```tsx
+import { useAdaptiveInterval } from 'react-native-energy-aware';
+
+function Feed() {
+  const interval = useAdaptiveInterval({
+    normal: 5000,   // poll every 5s normally
+    saver: 30000,   // 30s in power save mode
+    critical: 60000, // 60s when battery is critical
+  });
+
+  useEffect(() => {
+    const id = setInterval(fetchData, interval);
+    return () => clearInterval(id);
+  }, [interval]);
+}
+```
+
+Returns the appropriate interval in milliseconds based on `energyMode`. `overheating` uses the `critical` value.
+
+---
+
+### Components
+
+#### `<EnergyAwareAnimation>`
+
+Renders `children` in normal mode, `fallback` when animations should be reduced. Works with any animation library — Lottie, Reanimated, Skia, etc.
+
+```tsx
+import { EnergyAwareAnimation } from 'react-native-energy-aware';
+
+<EnergyAwareAnimation fallback={<StaticBanner />}>
+  <LottieView source={animation} autoPlay loop />
+</EnergyAwareAnimation>
+```
+
+#### `<EnergyDebugOverlay>`
+
+Debug overlay that displays real-time energy state. Wrap it in `__DEV__` so it never ships to production.
+
+```tsx
+import { EnergyDebugOverlay } from 'react-native-energy-aware';
+
+// In your root component:
+{__DEV__ && <EnergyDebugOverlay position="bottom-right" />}
+```
+
+Props: `position` — `'top-left'` | `'top-right'` | `'bottom-left'` | `'bottom-right'` (default: `'bottom-right'`)
+
 ---
 
 ## Real-world example
@@ -226,8 +276,7 @@ Built on the **New Architecture (TurboModule + Codegen)**. Old architecture is s
 
 ## Roadmap
 
-- **v0.2** — Drop-in components (`<EnergyAwareImage>`, `<EnergyAwareAnimation>`), `useAdaptiveInterval`, debug overlay
-- **v1.0** — `<EnergyProvider>` context, deferred task runner, plugin system for Reanimated / FlashList / Vision Camera / TanStack Query
+- **v1.0** — `<EnergyProvider>` context, `EnergyAwareImage`, `EnergyAwareVideo`, deferred task runner, plugin system for Reanimated / FlashList / Vision Camera / TanStack Query
 - **v1.1+** — Energy budget tracker, background task throttling, carbon-aware scheduling
 
 ---

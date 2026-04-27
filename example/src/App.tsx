@@ -1,5 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import {
+  EnergyAwareAnimation,
+  EnergyDebugOverlay,
+  useAdaptiveInterval,
   useCanRunExpensiveTask,
   useEnergyState,
   useRecommendedFPS,
@@ -13,6 +16,11 @@ export default function App() {
   const reduceQuality = useShouldReduceQuality();
   const fps = useRecommendedFPS();
   const canRunHeavyTask = useCanRunExpensiveTask();
+  const syncInterval = useAdaptiveInterval({
+    normal: 5000,
+    saver: 30000,
+    critical: 60000,
+  });
 
   return (
     <View style={styles.container}>
@@ -68,6 +76,27 @@ export default function App() {
         <Text style={styles.label}>Can run heavy task</Text>
         <Text style={styles.value}>{canRunHeavyTask ? 'yes' : 'no'}</Text>
       </View>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Adaptive sync interval</Text>
+        <Text style={styles.value}>{syncInterval / 1000}s</Text>
+      </View>
+
+      <View style={styles.divider} />
+
+      <EnergyAwareAnimation
+        fallback={
+          <View style={styles.animationBox}>
+            <Text style={styles.animationLabel}>⚡ Static (energy saving)</Text>
+          </View>
+        }
+      >
+        <View style={[styles.animationBox, styles.animationBoxActive]}>
+          <Text style={styles.animationLabel}>✨ Animated content here</Text>
+        </View>
+      </EnergyAwareAnimation>
+
+      {__DEV__ && <EnergyDebugOverlay position="bottom-right" />}
     </View>
   );
 }
@@ -108,5 +137,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
     width: '100%',
     marginVertical: 8,
+  },
+  animationBox: {
+    width: '100%',
+    height: 56,
+    borderRadius: 8,
+    backgroundColor: '#f0f0f0',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  animationBoxActive: {
+    backgroundColor: '#e8f5e9',
+  },
+  animationLabel: {
+    fontSize: 13,
+    color: '#444',
   },
 });

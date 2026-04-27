@@ -56,7 +56,7 @@ L'idée : la lib applique les best practices, le dev consomme juste un boolean.
 
 ---
 
-### 🚧 v0.2 — Adaptation automatique (in progress)
+### ✅ v0.2 — Adaptation automatique — released 2026-04-27
 
 #### 3. Composants drop-in
 
