@@ -22,7 +22,7 @@ class EnergyAwareModule(reactContext: ReactApplicationContext) :
   private var monitoringCount = 0
   private var batteryReceiver: BroadcastReceiver? = null
   private var powerSaveReceiver: BroadcastReceiver? = null
-  private var thermalReceiver: BroadcastReceiver? = null
+  private var thermalListener: PowerManager.OnThermalStatusChangedListener? = null
 
   // MARK: - NativeEnergyAwareSpec
 
@@ -51,11 +51,8 @@ class EnergyAwareModule(reactContext: ReactApplicationContext) :
     )
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-      thermalReceiver = stateChangeReceiver()
-      reactApplicationContext.registerReceiver(
-        thermalReceiver,
-        IntentFilter(PowerManager.ACTION_THERMAL_STATUS_CHANGED)
-      )
+      thermalListener = PowerManager.OnThermalStatusChangedListener { emitStateChange() }
+      powerManager.addThermalStatusListener(thermalListener!!)
     }
   }
 
@@ -80,13 +77,10 @@ class EnergyAwareModule(reactContext: ReactApplicationContext) :
     }
     powerSaveReceiver = null
 
-    thermalReceiver?.let {
-      try {
-        reactApplicationContext.unregisterReceiver(it)
-      } catch (_: Exception) {
-      }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+      thermalListener?.let { powerManager.removeThermalStatusListener(it) }
+      thermalListener = null
     }
-    thermalReceiver = null
   }
 
   // RN requires these to be implemented for NativeEventEmitter on the JS side
