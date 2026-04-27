@@ -61,18 +61,6 @@ L'idée : la lib applique les best practices, le dev consomme juste un boolean.
 #### 3. Composants drop-in
 
 ```jsx
-<EnergyAwareImage
-  source={{ uri }}
-  highQuality={hdImage}
-  lowQuality={compressedImage}
-/>
-
-<EnergyAwareVideo
-  source={video}
-  pauseOnLowPower
-  reducedQualityWhenHot
-/>
-
 <EnergyAwareAnimation fallback={<StaticView />}>
   <LottieView ... />
 </EnergyAwareAnimation>
